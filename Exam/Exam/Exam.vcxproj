@@ -95,6 +95,7 @@
   <ItemGroup>
     <ClInclude Include="domain.h" />
     <ClInclude Include="gui.h" />
+    <ClInclude Include="Model2.h" />
     <ClInclude Include="MyTableModel.h" />
     <ClInclude Include="observer.h" />
     <ClInclude Include="repo.h" />

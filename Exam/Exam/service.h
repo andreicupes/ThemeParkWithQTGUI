@@ -16,6 +16,11 @@ public:
 		notify();
 	}
 
+	void updServ(string id, string desc, string loc) {
+		if (this->r.updRepo(id, desc, loc) == false) throw exception("Failed!");
+		notify();
+	}
+
 	vector<Building> sortare(string area)
 	{
 		vector<Building> all{ this->r.getVB() };

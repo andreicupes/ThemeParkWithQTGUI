@@ -47,7 +47,20 @@ public:
 		this->vb.push_back(b);
 	}
 
-	
+	bool updRepo(string id, string desc, string loc) {
+		if (desc == "" || loc == "") return false;
+		vector<string> result;
+		string loc1 = loc;
+		stringstream ss(loc);
+		string token;
+		while (getline(ss, token, ' '))
+			result.push_back(token);
+		for (int i = 0; i < result.size() - 1; i++)
+			if (abs(result[i][0] - result[i + 1][0] + result[i][1] - result[i + 1][1]) > 1) return false;
+		for (auto &it : this->vb) {
+			if (id == it.getID()) { it.setDesc(desc); it.setLoc(result); return true; }
+		}
+	}
 
 	vector<Ethnologist> getVE() { return this->ve; }
 	vector<Building> getVB() {return this->vb; }
