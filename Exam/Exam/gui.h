@@ -60,7 +60,12 @@ public:
 					if (it.getCoord().find(a) != std::string::npos)
 					{
 						tbl->setItem(i, j, new QTableWidgetItem);
-						tbl->item(i, j)->setBackground(Qt::red);
+						string area = it.getArea();
+						int k;
+						for ( k = 0; k < e.size(); k++) if (e[k].getArea() == area) break;
+						QColor d = this->col[k];
+						tbl->item(i, j)->setBackground(d);
+						break;
 					}
 				}
 
