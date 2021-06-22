@@ -49,6 +49,7 @@ public:
 		vector<Ethnologist> e = s.getSVE();
 		for(int i=0;i<5;i++)
 			for (int j = 0; j < 6; j++) {
+				//int l = j + 1;
 				string a;
 				if (i == 0) a = "A" + to_string(j);
 				else if (i == 1) a = "B" + to_string(j);
@@ -67,6 +68,9 @@ public:
 						tbl->item(i, j)->setBackground(d);
 						break;
 					}
+					/*else if(it.getDesc()=="gift shop"){
+						tbl->setItem(i, j, new QTableWidgetItem);
+						tbl->item(i, j)->setBackground(Qt::black);}*/
 				}
 
 			}
