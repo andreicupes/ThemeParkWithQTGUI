@@ -27,13 +27,25 @@ public:
 		file2.close();
 	}
 
-	/*bool update(string old, string newt,string name,string area) {
-		for (auto it : this->ve) {
-			if (it.getName() == name && it.getArea() != area) return false;
+	bool addRepo(string id, string desc, string loc, string area) {
+		if (desc == "" || loc=="") return false;
+		vector<string> result;
+		string loc1 = loc;
+		stringstream ss(loc);
+		string token;
+		while (getline(ss, token, ' '))
+			result.push_back(token);
+		for (auto it : this->vb) {
+			vector<string> m = it.getLoc();
+			for (auto j : result)
+				for (auto k : m) if (j == k) return false;
+			if (it.getID() == id) return false;
 		}
-		for (auto& it : this->vb) {
-			if(old==it.getDesc() && area == it.getArea()) it.getDesc()
-		}*/
+		for (int i = 0; i < result.size() - 1; i++)
+			if (abs(result[i][0] - result[i + 1][0] + result[i][1] - result[i + 1][1]) > 1) return false;
+		Building b{ id,desc,area,result };
+		this->vb.push_back(b);
+	}
 
 	
 

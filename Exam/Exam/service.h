@@ -11,6 +11,10 @@ public:
 
 	void readFiles() { this->r.readFile1(); this->r.readFile2(); }
 
+	void addServ(string id, string desc, string loc, string area) {
+		if (this->r.addRepo(id,desc,loc,area) == false) throw exception("Failed!");
+		notify();
+	}
 
 	vector<Building> sortare(string area)
 	{

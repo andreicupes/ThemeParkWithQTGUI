@@ -52,17 +52,28 @@ public:
 		
 		QVBoxLayout* vl1 = new QVBoxLayout();
 		QHBoxLayout* hl1 = new QHBoxLayout();
-		QLabel* ld = new QLabel("Old text: ");
-		QLabel* ll = new QLabel("New text: ");
+		QLabel* li = new QLabel("Id: ");
+		QLabel* ld = new QLabel("Description: ");
+		QLabel* lc = new QLabel("Location(capital letters, space as delimiter): ");
 		QLineEdit* de = new QLineEdit();
+		QLineEdit* id = new QLineEdit();
 		QLineEdit* loc = new QLineEdit();
-		QPushButton* upd = new QPushButton("Update");
-		vl1->addWidget(ld); vl1->addWidget(de); vl1->addWidget(ll); vl1->addWidget(loc);
+		QPushButton* add = new QPushButton("Add");
+		vl1->addWidget(li); vl1->addWidget(id);vl1->addWidget(ld); vl1->addWidget(de); vl1->addWidget(lc); vl1->addWidget(loc);
 		hl1->addLayout(vl1);
-		hl1->addWidget(upd);
+		hl1->addWidget(add);
 		ly->addLayout(hl1);
-	};
+
+		QObject::connect(add, &QPushButton::clicked, this, [=]() {
+			string s1 = id->text().toStdString();
+			string s2 = de->text().toStdString();
+			string s3 = loc->text().toStdString();
+			try { this->s.addServ(s1,s2,s3,this->area); update(); }
+			catch (exception e) { QMessageBox::warning(this, "Error: ", QString::fromStdString(e.what())); }
+			});
+	}
 };
+
 
 
 class GUI :public QWidget {

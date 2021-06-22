@@ -51,7 +51,7 @@ public:
 	string getDesc() { return this->desc; }
 	vector<string> getLoc() { return this->loc; }
 
-
+	//void setID(string a) { this->id = a; }
 
 	string getCoord() {
 		string s = ""; for (auto i : this->loc) { s += i; s += " "; } return s;
