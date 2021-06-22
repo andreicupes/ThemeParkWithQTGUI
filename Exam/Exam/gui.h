@@ -23,26 +23,44 @@ class EtWindow : public QWidget, public Observer {
 private:
 	QTableView* tabel = new QTableView;
 	Service& s;
-	MyTableModel* model = new MyTableModel{ s.getSVB() };
+	MyTableModel* model;
 	QHBoxLayout* ly = new QHBoxLayout;
 	QColor col;
 	string name;
 	string area;
 public:
 	EtWindow(Service& s1, string a, string b) :s{ s1 } 
-	{ s.addObs(this); this->name = a; this->area = b; setWindowTitle(QString::fromStdString(a)); setComp(); this->update();
-	QPalette pal = this->palette();
-	//qsrand(time(0));
-	col = QColor(qrand() % 255, qrand() % 255, qrand() % 255);
-	pal.setColor(QPalette::Window,col );
-	this->setPalette(pal);
+	{	s.addObs(this); 
+		this->name = a; 
+		this->area = b; 
+		setWindowTitle(QString::fromStdString(a)); 
+		this->model= new MyTableModel{ s.getSVB(),this->area }; 
+		setComp(); 
+		this->update();
+		QPalette pal = this->palette();
+		col = QColor(qrand() % 255, qrand() % 255, qrand() % 255);
+		pal.setColor(QPalette::Window,col );
+		this->setPalette(pal);
 	}
 	void update() override {
-		model->setFiles(s.getSVB());
+
+		model->setFiles(s.sortare(area));
 		tabel->setModel(model);
 	}
 	void setComp() {
 		setLayout(ly); ly->addWidget(tabel);
+		
+		QVBoxLayout* vl1 = new QVBoxLayout();
+		QHBoxLayout* hl1 = new QHBoxLayout();
+		QLabel* ld = new QLabel("Old text: ");
+		QLabel* ll = new QLabel("New text: ");
+		QLineEdit* de = new QLineEdit();
+		QLineEdit* loc = new QLineEdit();
+		QPushButton* upd = new QPushButton("Update");
+		vl1->addWidget(ld); vl1->addWidget(de); vl1->addWidget(ll); vl1->addWidget(loc);
+		hl1->addLayout(vl1);
+		hl1->addWidget(upd);
+		ly->addLayout(hl1);
 	};
 };
 
@@ -51,12 +69,12 @@ class GUI :public QWidget {
 private:
 	QTableView* tabel = new QTableView;
 	Service& s;
-	MyTableModel* model = new MyTableModel{ s.getSVB() };
+	MyTableModel* model; 
 public:
 	GUI(Service& s1) : s{ s1 } {
 		vector<Ethnologist> v = this->s.getSVE();
 		for (auto it : v) {
-
+			model= new MyTableModel{ s.getSVB() ,it.getArea()};
 			EtWindow* a = new EtWindow(s, it.getName(), it.getArea());
 			//s.addObs(a);
 			a->resize(1000, 300);

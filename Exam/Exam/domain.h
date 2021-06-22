@@ -50,6 +50,9 @@ public:
 	string getArea() { return this->area; }
 	string getDesc() { return this->desc; }
 	vector<string> getLoc() { return this->loc; }
+
+
+
 	string getCoord() {
 		string s = ""; for (auto i : this->loc) { s += i; s += " "; } return s;
 	}
@@ -66,7 +69,9 @@ public:
 		b.id = result[0];
 		b.desc = result[1];
 		b.area = result[2];
-		for (int i = 3; i < result.size(); i++)b.loc.push_back(result[i]);
+		vector<string> coord;
+		for (int i = 3; i < result.size(); i++)coord.push_back(result[i]);
+		b.loc = coord;
 		return stream;
 	}
 

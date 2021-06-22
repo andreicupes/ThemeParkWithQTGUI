@@ -27,6 +27,16 @@ public:
 		file2.close();
 	}
 
+	/*bool update(string old, string newt,string name,string area) {
+		for (auto it : this->ve) {
+			if (it.getName() == name && it.getArea() != area) return false;
+		}
+		for (auto& it : this->vb) {
+			if(old==it.getDesc() && area == it.getArea()) it.getDesc()
+		}*/
+
+	
+
 	vector<Ethnologist> getVE() { return this->ve; }
 	vector<Building> getVB() {return this->vb; }
 };

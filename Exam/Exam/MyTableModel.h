@@ -9,8 +9,9 @@ class MyTableModel :public QAbstractTableModel
 {
 private:
 	vector<Building> i;
+	string name;
 public:
-	MyTableModel(vector<Building> s) :i{ s } {}
+	MyTableModel(vector<Building> s, string a) :i{ s } { this->name = a; }
 
 	int rowCount(const QModelIndex& parent = QModelIndex())const override { return i.size(); }
 
@@ -29,18 +30,13 @@ public:
 			else if (index.column() == 3)
 				return QString::fromStdString(sf.getCoord());
 		}
-		/*if (role == Qt::FontRole && sf.getStatus() != "revised") {
-			QFont font;
-			font.setBold(true);
-			return font;
+		if (role == Qt::BackgroundRole && sf.getArea() == this->name) {
+			return QColor(Qt::blue);
 		}
-		if (role == Qt::BackgroundRole && sf.getStatus() == "revised") {
-			return QColor(Qt::green);
-		}*/
 		return QVariant();
 	}
 
-	void setFiles(vector<Building> sf) { this->i = sf; emit layoutChanged(); }
+	void setFiles(vector<Building> sf ) { this->i = sf; emit layoutChanged(); }
 
 	QVariant headerData(int section, Qt::Orientation orientation, int role)const override {
 		if (role == Qt::DisplayRole)
