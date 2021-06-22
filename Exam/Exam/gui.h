@@ -25,13 +25,15 @@ class Nwindow :public QWidget, public Observer {
 private:
 	vector<QColor> col;
 	Service& s;
-	QTableWidget* tbl = new QTableWidget(5, 7);
+	QTableWidget* tbl = new QTableWidget(5,6);
 	QHBoxLayout* ly = new QHBoxLayout;
 public:
 	Nwindow(Service& s1, vector<QColor> a) :s{ s1 } { s.addObs(this); this->col = a; setComp(); update(); }
 	void setComp() {
 		setLayout(ly);
 		ly->addWidget(tbl);
+		tbl->setColumnCount(6);
+		tbl->setRowCount(5);
 		tbl->setVerticalHeaderItem(0, new QTableWidgetItem("A"));
 		tbl->setVerticalHeaderItem(1, new QTableWidgetItem("B"));
 		tbl->setVerticalHeaderItem(2, new QTableWidgetItem("C"));
@@ -40,6 +42,8 @@ public:
 	}
 	void update() override {
 		tbl->clear();
+		tbl->setColumnCount(6);
+		tbl->setRowCount(5);
 		tbl->setVerticalHeaderItem(0, new QTableWidgetItem("A"));
 		tbl->setVerticalHeaderItem(1, new QTableWidgetItem("B"));
 		tbl->setVerticalHeaderItem(2, new QTableWidgetItem("C"));
@@ -47,34 +51,63 @@ public:
 		tbl->setVerticalHeaderItem(4, new QTableWidgetItem("E"));
 		vector<Building> b = s.getSVB();
 		vector<Ethnologist> e = s.getSVE();
-		for(int i=0;i<5;i++)
-			for (int j = 0; j < 6; j++) {
-				//int l = j + 1;
+		int i, j;
+		for (i = 0; i < 5; i++)
+		{
+			for (j = 0; j < 5; j++) {
+				/*string l;
+				if (j == 0) l = "1";
+				else if (j == 1) l = "2";
+				else if (j == 2) l = "3";
+				else if (j == 3) l = "4";
+				else if (j == 4) l = "5";
+				else if (j == 5) l = "6";*/
 				string a;
-				if (i == 0) a = "A" + to_string(j);
-				else if (i == 1) a = "B" + to_string(j);
-				else if (i == 2) a = "C" + to_string(j);
-				else if (i == 3) a = "D" + to_string(j);
-				else if (i == 4) a = "E" + to_string(j);
+				if (i == 0) a = "A" + to_string(j+1);
+				else if (i == 1) a = "B" + to_string(j+1);
+				else if (i == 2) a = "C" + to_string(j+1);
+				else if (i == 3) a = "D" + to_string(j+1);
+				else if (i == 4) a = "E" + to_string(j+1);
 
-				for (auto it : b) {
+				for (auto& it : b) {
 					if (it.getCoord().find(a) != std::string::npos)
 					{
 						tbl->setItem(i, j, new QTableWidgetItem);
 						string area = it.getArea();
 						int k;
-						for ( k = 0; k < e.size(); k++) if (e[k].getArea() == area) break;
+						for (k = 0; k < e.size(); k++) if (e[k].getArea() == area) break;
 						QColor d = this->col[k];
 						tbl->item(i, j)->setBackground(d);
-						break;
+
 					}
-					/*else if(it.getDesc()=="gift shop"){
-						tbl->setItem(i, j, new QTableWidgetItem);
-						tbl->item(i, j)->setBackground(Qt::black);}*/
+					
 				}
 
 			}
+		}
+		/*for (i = 0; i < 5; i++) {
+			string a;
+			if (i == 0) a = "A6";
+			else if (i == 1) a = "B6" ;
+			else if (i == 2) a = "C6" ;
+			else if (i == 3) a = "D6" ;
+			else if (i == 4) a = "E6" ;
+			for (auto& it : b) {
+				if (it.getCoord().find(a) != std::string::npos)
+				{
+					tbl->setItem(i, 5, new QTableWidgetItem);
+					string area = it.getArea();
+					int k;
+					for (k = 0; k < e.size(); k++) if (e[k].getArea() == area) break;
+					QColor d = this->col[k];
+					tbl->item(i, 5)->setBackground(d);
 
+				}
+
+			}
+		}*/
+		tbl->setItem(4, 5, new QTableWidgetItem);
+		tbl->item(4, 5)->setBackground(Qt::black);
 	}
 };
 
